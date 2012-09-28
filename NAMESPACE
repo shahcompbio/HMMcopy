@@ -1,0 +1,5 @@
+useDynLib(HMMcopy, .registration = TRUE)
+import(IRanges)
+export(wigsToRangedData, correctReadcount, plotBias, plotCorrection,
+	wigToRangedData, wigToArray, rangedDataToWig, rangedDataToSeg,
+	HMMsegment, plotSegments, plotParam, stateCols)
