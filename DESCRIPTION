@@ -1,12 +1,19 @@
 Package: HMMcopy
 Type: Package
-Title: Copy number prediction with correction for GC and mappability bias for HTS data
-Version: 1.5.1
+Title: Copy number prediction with correction for GC and mappability
+        bias for HTS data
+Version: 1.5.2
 Date: 2012-08-27
 Author: Daniel Lai, Gavin Ha, Sohrab Shah
-Maintainer: Daniel Lai <jujubix@cs.ubc.ca>, Gavin Ha <gha@bccrc.ca>, Sohrab Shah <sshah@bccrc.ca>
+Maintainer: Daniel Lai <jujubix@cs.ubc.ca>, Gavin Ha <gha@bccrc.ca>,
+        Sohrab Shah <sshah@bccrc.ca>
 Import: IRanges
 Depends: R (>= 2.10.0), IRanges (>= 1.4.16), geneplotter (>= 1.24.0)
-Description: Corrects GC and mappability biases for readcounts (i.e. coverage) in non-overlapping windows of fixed length for single whole genome samples, yielding a rough estimate of copy number for furthur analysis.  Designed for rapid correction of high coverage whole genome tumour and normal samples.
+Description: Corrects GC and mappability biases for readcounts (i.e.
+        coverage) in non-overlapping windows of fixed length for single
+        whole genome samples, yielding a rough estimate of copy number
+        for furthur analysis.  Designed for rapid correction of high
+        coverage whole genome tumour and normal samples.
 License: GPL-3
-biocViews: Sequencing, Preprocessing, Visualization, CopyNumberVariants, HighThroughputSequencing, Microarray
+biocViews: Sequencing, Preprocessing, Visualization,
+        CopyNumberVariation, Sequencing, Microarray
