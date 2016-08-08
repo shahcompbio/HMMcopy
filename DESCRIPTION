@@ -2,11 +2,10 @@ Package: HMMcopy
 Type: Package
 Title: Copy number prediction with correction for GC and mappability
         bias for HTS data
-Version: 1.15.0
-Date: 2012-08-27
+Version: 1.15.1
+Date: 2016-08-08
 Author: Daniel Lai, Gavin Ha, Sohrab Shah
-Maintainer: Daniel Lai <jujubix@cs.ubc.ca>, Gavin Ha <gha@bccrc.ca>,
-        Sohrab Shah <sshah@bccrc.ca>
+Maintainer: Daniel Lai <dalai@bccrc.ca>, Sohrab Shah <sshah@bccrc.ca>
 Import: IRanges
 Depends: R (>= 2.10.0), IRanges (>= 1.4.16), geneplotter (>= 1.24.0)
 Description: Corrects GC and mappability biases for readcounts (i.e.
