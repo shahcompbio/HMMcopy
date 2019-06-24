@@ -2,7 +2,7 @@ Package: HMMcopy
 Type: Package
 Title: Copy number prediction with correction for GC and mappability
         bias for HTS data
-Version: 1.28.0
+Version: 1.27.1
 Date: 2019-06-21
 Author: Daniel Lai, Gavin Ha, Sohrab Shah
 Maintainer: Daniel Lai <dalai@bccrc.ca>, Sohrab Shah <sshah@bccrc.ca>
