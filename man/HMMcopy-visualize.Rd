@@ -13,8 +13,8 @@ Visualization functions for correctReadcount results
 }
 \usage{
 plotBias(correctOutput, points = 10000, ...)
-plotCorrection(correctOutput, chr = space(correctOutput)[1], ...)
-plotSegments(correctOutput, segmentOutput, chr = space(correctOutput)[1], ...)
+plotCorrection(correctOutput, chr = correctOutput$chr[1], ...)
+plotSegments(correctOutput, segmentOutput, chr = correctOutput$chr[1], ...)
 plotParam(segmentOutput, param, ...)
 stateCols()
 }

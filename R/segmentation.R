@@ -3,11 +3,11 @@ stateCols <- function() {
 }
 
 plotSegments <- function(correctOutput, segmentOutput,
-    chr = space(correctOutput)[1], ...){
+    chr = correctOutput$chr[1], ...){
   if (is.null(segmentOutput$segs)) {
     warning("Processed segments now found, automatically processing")
     segmentOutput$segs <- processSegments(segments$segs,
-      space(correctOutput), start(correctOutput), end(correctOutput),
+      correctOutput$chr, correctOutput$start, correctOutput$end,
       correctOutput$copy)
   }
 
@@ -16,9 +16,9 @@ plotSegments <- function(correctOutput, segmentOutput,
   cols <- stateCols()
   range <- quantile(correctOutput$copy, na.rm = TRUE, prob = c(0.01, 0.99))
 
-  a <- correctOutput[as.character(chr)]
-  b <- segs[segs$chr == chr, ]
-  plot(start(a), a$copy,
+  a <- subset(correctOutput, chr == chr)
+  b <- subset(segs, chr == chr)
+  plot(a$start, a$copy,
     col = cols[as.numeric(as.character(a$state))], ylim = range, ...)
   for (k in 1:nrow(b)){
     lines(c(b$start[k], b$end[k]), rep(b$median[k], 2), lwd = 3,
@@ -58,7 +58,7 @@ plotParam <- function(segmentOutput, param, ...) {
 
 HMMsegment <- function(correctOut, param = NULL, autosomes = NULL, maxiter = 50,
     getparam = FALSE, verbose = TRUE) {
-  chr <- space(correctOut)
+  chr <- correctOut$chr
 
   if (is.null(autosomes)) {
     autosomes <- (chr != "X" & chr != "Y" & chr != "23" & chr != "24" &
@@ -91,8 +91,8 @@ HMMsegment <- function(correctOut, param = NULL, autosomes = NULL, maxiter = 50,
 
   output <- manualSegment(correctOut$copy, chr, autosomes, param, maxiter,
     verbose)
-  output$segs <- processSegments(output$segs, chr, start(correctOut),
-    end(correctOut), correctOut$copy)
+  output$segs <- processSegments(output$segs, chr, correctOut$start,
+    correctOut$end, correctOut$copy)
   return(output)
 }
 

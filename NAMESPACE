@@ -1,5 +1,9 @@
 useDynLib(HMMcopy, .registration = TRUE)
-import(IRanges)
+import(data.table)
 export(wigsToRangedData, correctReadcount, plotBias, plotCorrection,
 	wigToRangedData, wigToArray, rangedDataToWig, rangedDataToSeg,
 	HMMsegment, plotSegments, plotParam, stateCols)
+importFrom("grDevices", "densCols")
+importFrom("graphics", "lines", "par", "plot", "segments")
+importFrom("stats", "approxfun", "dnorm", "loess", "lowess", "predict", "mad", "median", "quantile", "sd")
+importFrom("utils", "write.table")

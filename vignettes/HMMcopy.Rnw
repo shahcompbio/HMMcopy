@@ -1,10 +1,9 @@
 % \VignetteIndexEntry{HMMcopy}
-% \VignetteDepends{HMMcopy, IRanges, geneplotter}
+% \VignetteDepends{HMMcopy, data.table}
 % \VignetteKeywords{Readcount GC Mappability Correction Normalization HTS}
 % \VignettePackage{HMMcopy}
 
 \documentclass[letterpaper]{article}
-%\usepackage{natbib}
 \usepackage{fullpage}
 \usepackage{url} 
 
@@ -101,7 +100,7 @@ normal_reads[1000:1010, ]
 
 \subsection{Correcting HTS copy number data}
 
-The resultant output is an IRanges object, which can easily use other
+The resultant output is an data.table object, which can easily use other
 Bioconductor functions and packages for analysis and visualzation.  Although
 it is recommended that the output be left untouched until furthur correction
 as follows:

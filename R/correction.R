@@ -23,8 +23,8 @@ wigToRangedData <- function(wigfile, verbose = TRUE) {
   lengths <- as.integer(lapply(temp, nrow))
   temp <- temp[order(lengths, decreasing = TRUE)]
   temp = do.call("rbind", temp)
-  output <- RangedData(ranges = IRanges(start = temp$pos, width = span),
-    space = temp$chr, value = temp$val)
+  output <- data.table(chr = temp$chr, start = temp$pos, end = temp$pos + span,
+    value = temp$val)
   return(output)
 }
 
@@ -52,21 +52,21 @@ wigToArray <- function(wigfile, verbose = TRUE) {
 
 rangedDataToWig <- function(correctOutput, file, column = "copy", sample = "R",
     verbose = TRUE) {
-  dat <- eval(parse(text = paste("correctOutput", column, sep = "$")))
+  dat <- c(correctOutput[[column]])
   if (length(dat) == 0) {
     stop(paste(column, "is not a valid column"))
   }
-  dat[is.na(dat)] = -1
+  dat[is.na(dat)] <- -1
 
   cat(paste("track type=wiggle_0 name=\"", sample, "\"", sep = ""),
     file = file, sep = "\n")
-  temp <- data.frame(chr = space(correctOutput), dat)
-  width <- start(correctOutput)[2] - start(correctOutput)[1]
-  chrs <- levels(space(correctOutput))
+  temp <- data.frame(chr = correctOutput$chr, dat)
+  width <- correctOutput$start[2] - correctOutput$start[1]
+  chrs <- levels(correctOutput$chr)
 
   for (i in 1:length(chrs)) {
     chr <- chrs[i]
-    out <- temp$dat[temp$chr == chr]
+    out <- subset(temp, chr == chr)[, 2]
     if (verbose) {
       message(paste("Outputting chromosome ", chr,
         " (", length(out), ")", sep = ""))
@@ -79,15 +79,15 @@ rangedDataToWig <- function(correctOutput, file, column = "copy", sample = "R",
 
 rangedDataToSeg <- function(correctOutput, file, column = "copy", sample = "R",
     verbose = TRUE) {
-  dat <- eval(parse(text = paste("correctOutput", column, sep = "$")))
+  dat <- c(correctOutput[[column]])
   if (length(dat) == 0) {
     stop(paste(column, "is not a valid column"))
   }
   dat[is.na(dat)] = -1
 
-  width <- start(correctOutput)[2] - start(correctOutput)[1]
-  out <- data.frame(sample = sample, chr = space(correctOutput), start = start(correctOutput) - 1,
-    end = start(correctOutput) + width - 1, value = round(dat, digits = 6))
+  width <- correctOutput$start[2] - correctOutput$start[1]
+  out <- data.frame(sample = sample, chr = correctOutput$chr, start = correctOutput$start - 1,
+    end = correctOutput$start + width - 1, value = dat)
 
   write.table(format(out, format = "f", trim = TRUE, drop0trailing = TRUE),
     file = file, quote = FALSE, row.names = FALSE, sep = "\t")
@@ -95,7 +95,7 @@ rangedDataToSeg <- function(correctOutput, file, column = "copy", sample = "R",
 
 wigsToRangedData <- function(readfile, gcfile, mapfile, verbose = FALSE) {
   output <- wigToRangedData(readfile, verbose)
-  colnames(output) <- c("reads")
+  colnames(output)[4] <- c("reads")
   output$reads <- as.integer(output$reads)
   gc <- wigToArray(gcfile, verbose)
 
@@ -191,14 +191,14 @@ plotBias <- function(correctOutput, points = 10000, ...) {
     main = "GC and Mappability Corrected Readcount", ...)
 }
 
-plotCorrection <- function(correctOutput, chr = space(correctOutput)[1], ...) {
-  if (!(chr %in% levels(space(correctOutput)))) {
+plotCorrection <- function(correctOutput, chr = correctOutput$chr[1], ...) {
+  if (!(chr %in% levels(correctOutput$chr))) {
     stop(paste("Invalid chromosome, try one of:",
-      paste(levels(space(correctOutput)), collapse = " ")))
+      paste(levels(correctOutput$chr), collapse = " ")))
   }
   par(mfrow = c(3, 1))
-  correctOutput <- correctOutput[paste(chr)]
-  pos <- start(correctOutput)
+  correctOutput <- subset(correctOutput, chr == chr)
+  pos <- correctOutput$start
   from <- min(pos)
   to <- max(pos)
 
