@@ -143,7 +143,7 @@ correctReadcount <- function(x, mappability = 0.9, samplesize = 50000,
   coutlier <- 0.01
   range <- quantile(x$cor.gc[which(x$valid)],
     prob = c(0, 1 - coutlier), na.rm = TRUE)
-  set <- which(x$cor.gc < range[2])
+  set <- which(x$cor.gc < range[2] & x$cor.gc > range[1])
   select <- sample(set, min(length(set), samplesize))
   final = approxfun(lowess(x$map[select], x$cor.gc[select]))
   x$cor.map <- x$cor.gc / final(x$map)
